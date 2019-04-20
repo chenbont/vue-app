@@ -1,4 +1,4 @@
-#Vue-App
+# Vue-App
 
 Vue + Cordova 开发的 App 模板
 
@@ -74,9 +74,14 @@ $ npm run cordova-prepare
  
 除了不再需要在Terminal面板中输入命令运行外，webstorm 会在下方出现一个 RUN 面板运行，Terminal 中仍可以运行其他命令。
 
-**现在，一个简单的 vue app 就生成了，你可以试着生成一个发布包安装到自己的手机上体验一下。**
+现在，一个简单的 vue app 就生成了，你可以试着生成一个发布包安装到自己的手机上体验一下。
 
 **这玩具都不算，还需要更多功能**
 ### 功能模块安装与配置
 #### 1. axios 网络访问组件
 App 免不了访问远程API接口，我们使用 axios 来完成它。下面，我们帮安装并完成它的跨域配置和API接口封装。
+
+#####安装 axios
+```bash
+npm install --save axios vue-axios
+```
