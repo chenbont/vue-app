@@ -17,8 +17,11 @@
     "cordova-serve-osx": "vue-cli-service cordova-serve-osx"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "core-js": "^2.6.5",
+    "qs": "^6.7.0",
     "vue": "^2.6.10",
+    "vue-axios": "^2.1.4",
     "vue-cordova": "^0.1.2"
   },
   "devDependencies": {
