@@ -10,7 +10,7 @@ npm install --save axios vue-axios
 npm install --save qs
 ```
 ## axios 跨域设置
-在 [/src/vue.config.js](https://github.com/chenbont/vue-app/blob/master/src/vue.config.js)(如果没有就创建一个) 中配置 devServer 字段
+在 [/src/vue.config.js](https://github.com/chenbont/vue-app/blob/master/vue.config.js)(如果没有就创建一个) 中配置 devServer 字段
 ```js
   devServer: {
       proxy: { // 配置跨域
