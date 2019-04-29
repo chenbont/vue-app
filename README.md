@@ -79,52 +79,7 @@ $ npm run cordova-prepare
 现在，一个简单的 vue app 就生成了，你可以试着生成一个发布包安装到自己的手机上体验一下。
 
 **这玩具都不算，还需要更多功能**
-### 功能模块安装与配置
-#### 1. axios 网络访问组件
-App 免不了访问远程API接口，我们使用 axios 来完成它。下面，我们帮安装并完成它的跨域配置和API接口封装。
 
-##### 安装 axios 和 qs
-```bash
-npm install --save axios vue-axios
-npm install --save qs
-```
-##### axios 跨域设置
-在 [/src/vue.config.js](https://github.com/chenbont/vue-app/blob/master/src/vue.config.js) 中配置 devServer 字段
-```js
-  devServer: {
-      proxy: { // 配置跨域
-        'client':{
-            target: 'http://192.168.0.199:9002',
-        },
-          'amap':{
-              target: 'https://restapi.amap.com/v3',
-              pathRewrite: {
-                  '^/amap': ''
-              },
-          },
-          'qqmap':{
-              target: 'https://apis.map.qq.com/ws',
-              pathRewrite: {
-                  '^/qqmap': ''
-              },
-
-          },
-      }
-    }
-```
-添加后，axios 请求时实际地址为：
->/client/v1/getInfo  ====> http://192.168.0.199:9002/client/v1/getInfo
->
->/amap/getInfo  ====> https://restapi.amap.com/v3/getInfo
->
->/qqmap/getInfo  ====> https://apis.map.qq.com/ws/getInfo
-##### 封装 http.js 作为请求管理器
-[/src/functions/http.js](https://github.com/chenbont/vue-app/blob/master/src/functions/http.js)
-
-此组件导出 get、post、nGet、nPost 方法，其中：
- * get/post 方法封装项目定义API接口协议，对API返回的错误信息做异常处理。
- > 项目接口协议为：
- > 1. 所有 API 都返回 http 状态码 200，不得以 http 状态码来区分。
- > 2. 所有 API 必须返回 {code=0,msg='sucess'}字段，如果有业务数据返回时全部放在data字段中。
- * nGet/nPost 方法直接返回API数据。
-
+## 功能主题
+下面分别介绍 Vue-App 开发中常用的功能实现。
+ * [API 跨域、封装与模拟](https://github.com/chenbont/vue-app/blob/master/document/network.md)
