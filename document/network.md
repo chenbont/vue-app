@@ -10,13 +10,11 @@ npm install --save axios vue-axios
 npm install --save qs
 ```
 ## axios 跨域设置
+### 开发环境
 在 [/vue.config.js](https://github.com/chenbont/vue-app/blob/master/vue.config.js)(如果没有就创建一个) 中配置 devServer 字段
 ```js
   devServer: {
       proxy: { // 配置跨域
-        'client':{
-            target: 'http://192.168.0.199:9002',
-        },
           'amap':{
               target: 'https://restapi.amap.com/v3',
               pathRewrite: {
@@ -34,11 +32,46 @@ npm install --save qs
     }
 ```
 添加后，axios 请求时实际地址为：
->/client/v1/getInfo  ====> http://192.168.0.199:9002/client/v1/getInfo
->
 >/amap/getInfo  ====> https://restapi.amap.com/v3/getInfo
 >
 >/qqmap/getInfo  ====> https://apis.map.qq.com/ws/getInfo
+
+### 生产环境
+在 config.js 里配置 axios 的参数
+```js
+export default {
+    ax :{
+        baseURL:"http://api.shopman.club",
+        responseType:"json",
+        headers:{
+            'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'
+        },
+    },
+}
+```
+然后在 https.js 里创建出 axios 对象
+```js
+const ax = axios.create(Config.ax);
+//请求拦截器
+ax.interceptors.request.use(function (config) {
+    //这里判断是否为第三方API，如果是则清除 baseURL 设置（因为第三方不需要前缀 baseURL)
+    if (config.url.indexOf("/v1")!=0) {
+        config.baseURL = '';
+    }
+    let token = localStorage.getItem('token')
+    if (token) {
+        config.headers.authorization =  'Bearer ' + token
+    }
+    config.data = QS.stringify(config.data);
+
+    return config
+}, function (error) {
+    // 请求错误时弹框提示，或做些其他事
+
+    return Promise.reject(error)
+})
+
+```
 ## 封装 http.js 作为请求管理器
 [/src/functions/http.js](https://github.com/chenbont/vue-app/blob/master/src/functions/http.js)
 

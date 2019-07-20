@@ -1,14 +1,18 @@
 import axios from 'axios'; // 引入axios
 import QS from 'qs'; // 引入qs模块，用来序列化post类型的数据，后面会提到
+import Config from '../config.js'
+const ax = axios.create(Config.ax);
 //请求拦截器
-axios.interceptors.request.use(function (config) {
-    config.headers ["Content-type"] = "application/x-www-form-urlencoded"
+ax.interceptors.request.use(function (config) {
+    //这里判断是否为第三方API，如果是则清除 baseURL 设置（因为第三方不需要前缀 baseURL)
+    if (config.url.indexOf("/v1")!=0) {
+        config.baseURL = '';
+    }
     let token = localStorage.getItem('token')
-
     if (token) {
         config.headers.authorization =  'Bearer ' + token
     }
-    axios.defaults.headers.common["Content-type"] = "application/x-www-form-urlencoded"
+    config.data = QS.stringify(config.data);
 
     return config
 }, function (error) {
@@ -17,7 +21,7 @@ axios.interceptors.request.use(function (config) {
     return Promise.reject(error)
 })
 // 响应拦截器
-axios.interceptors.response.use(
+ax.interceptors.response.use(
     response => {
         // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
         // 否则的话抛出错误
@@ -35,7 +39,7 @@ axios.interceptors.response.use(
  */
 export function get(url, params){
     return new Promise((resolve, reject) =>{
-        axios.get(url, params).then(res => {
+        ax.get(url, {params:params}).then(res => {
             if (res.data.code==0) {
                 resolve(res.data);
             } else {
@@ -89,7 +93,7 @@ export function origGet(url, params){
  */
 export function origPost(url, params) {
     return new Promise((resolve, reject) => {//相当于授权
-        axios.post(url, QS.stringify(params))
+        axios.post(url, params)
             .then(res => {
                 resolve(res.data);
             })
