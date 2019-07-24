@@ -27,6 +27,8 @@ npm install -g cordova
 #vue create vue-app
 #cd vue-app
 ```
+现在，你可以按普通 vue 项目进行开发了。
+
 ### 安装 vue-cordova 插件
 ```bash
 #npm install --save vue-cordova
@@ -35,6 +37,13 @@ npm install -g cordova
 ```bash
 #vue add cordova
 ```
+此命令后提示你输入 cordova 路径和项目包名之类的，路径一般不变，包名是最终生成 app 的包名，以后也可以在 src-cordova/config.xml 里自己修改。
+### 创建android 平台
+```bash
+cd src-cordova
+cordova platform add android
+```
+此命令会为项目创建 android 平台，如果没有 android 环境所需的组件，它会自动下载。
 ## 调试
 在 Windows 下调试需要安装一个Android 模拟器和　Chrome 浏览器
 > 推荐使用“雷电模拟器”
@@ -75,6 +84,17 @@ $ npm run cordova-prepare
  4. 添加好后，即可通过点击上面的 Run 按钮（绿色三角形）来启动相应的命令。
  
 除了不再需要在Terminal面板中输入命令运行外，webstorm 会在下方出现一个 RUN 面板运行，Terminal 中仍可以运行其他命令。
+## 发布
+### 生成发布版本
+在项目目录下执行
+```
+$ npm run cordova-build-android 
+```
+命令执行后，会生成一个未签名的app发布版本，位置在
+> src-cordova/platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk
+
+### 应用签名及加固
+可以使用360或腾讯的app加固工具进行。
 
 现在，一个简单的 vue app 就生成了，你可以试着生成一个发布包安装到自己的手机上体验一下。
 
